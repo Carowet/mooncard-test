@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+
 import logo from './logo.svg';
 import './App.css';
+import Pokemon from './api/Pokemon'
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  const [pokemons, setPokemons] = useState<{name: string, apiUrl: string}[]>([]);
 
+  const fetchPokemonsHandler = useCallback(() => {
+    return fetch('https://pokeapi.co/api/v2/pokemon')
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setPokemons( data.results.map((pokemonData : any) => {
+          return {
+            name: pokemonData.name,
+            apiUrl: pokemonData.url
+          };
+        }));
+      });
+  }, []);
+
+}
 export default App;
