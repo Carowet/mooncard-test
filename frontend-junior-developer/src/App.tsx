@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react';
 
 import logo from './logo.svg';
 import './App.css';
-import Pokemon from './api/Pokemon'
-
 
 function App() {
   const [pokemons, setPokemons] = useState<{name: string, apiUrl: string}[]>([]);
@@ -22,6 +20,17 @@ function App() {
         }));
       });
   }, []);
+
+  return (
+    <React.Fragment>
+      <section>
+        <button onClick={fetchPokemonsHandler}>Fetch Pokemon</button>
+      </section>
+      <section>
+        {pokemons.length ? pokemons.map(pokemon => <p>{pokemon.name}</p>) : <p>Found no Pokemon</p> }
+      </section>
+    </React.Fragment>
+  )
 
 }
 export default App;
